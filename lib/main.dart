@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:newspaperapp/Infrastructure/Api/rest_api_client.dart';
+import 'package:newspaperapp/Infrastructure/Api/rest_api_interceptor.dart';
 
 import 'Core/Router/navigate.dart';
 import 'Core/Router/routes.dart';
 
 void main() async {
+  await initializeServices();
   await initializeDateFormatting('fr_FR', null);
   runApp(const MyApp());
+}
+
+Future<void> initializeServices() async {
+  Get.put(
+    RestApiClient(
+      restApiInterceptor: Get.put(
+        RestApiInterceptor(),
+      ),
+    ),
+    permanent: true,
+  );
 }
 
 class MyApp extends StatelessWidget {

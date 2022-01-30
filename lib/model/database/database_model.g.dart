@@ -37,8 +37,8 @@ class TableArticles extends SqfEntityTableBase {
       SqfEntityFieldBase('title', DbType.text),
       SqfEntityFieldBase('description', DbType.text),
       SqfEntityFieldBase('url', DbType.text),
-      SqfEntityFieldBase('image_url', DbType.text),
-      SqfEntityFieldBase('published_at', DbType.datetime,
+      SqfEntityFieldBase('urlToImage', DbType.text),
+      SqfEntityFieldBase('publishedAt', DbType.datetime,
           minValue: DateTime.parse('1900-01-01')),
       SqfEntityFieldBase('content', DbType.text),
       SqfEntityFieldBase('created_at', DbType.datetime,
@@ -124,8 +124,8 @@ class Articles extends TableBase {
       this.title,
       this.description,
       this.url,
-      this.image_url,
-      this.published_at,
+      this.urlToImage,
+      this.publishedAt,
       this.content,
       this.created_at,
       this.updated_at,
@@ -140,8 +140,8 @@ class Articles extends TableBase {
       this.title,
       this.description,
       this.url,
-      this.image_url,
-      this.published_at,
+      this.urlToImage,
+      this.publishedAt,
       this.content,
       this.created_at,
       this.updated_at,
@@ -155,8 +155,8 @@ class Articles extends TableBase {
       this.title,
       this.description,
       this.url,
-      this.image_url,
-      this.published_at,
+      this.urlToImage,
+      this.publishedAt,
       this.content,
       this.created_at,
       this.updated_at,
@@ -182,14 +182,14 @@ class Articles extends TableBase {
     if (o['url'] != null) {
       url = o['url'].toString();
     }
-    if (o['image_url'] != null) {
-      image_url = o['image_url'].toString();
+    if (o['urlToImage'] != null) {
+      urlToImage = o['urlToImage'].toString();
     }
-    if (o['published_at'] != null) {
-      published_at = int.tryParse(o['published_at'].toString()) != null
+    if (o['publishedAt'] != null) {
+      publishedAt = int.tryParse(o['publishedAt'].toString()) != null
           ? DateTime.fromMillisecondsSinceEpoch(
-              int.tryParse(o['published_at'].toString())!)
-          : DateTime.tryParse(o['published_at'].toString());
+              int.tryParse(o['publishedAt'].toString())!)
+          : DateTime.tryParse(o['publishedAt'].toString());
     }
     if (o['content'] != null) {
       content = o['content'].toString();
@@ -228,8 +228,8 @@ class Articles extends TableBase {
   String? title;
   String? description;
   String? url;
-  String? image_url;
-  DateTime? published_at;
+  String? urlToImage;
+  DateTime? publishedAt;
   String? content;
   DateTime? created_at;
   DateTime? updated_at;
@@ -277,17 +277,17 @@ class Articles extends TableBase {
     if (url != null || !forView) {
       map['url'] = url;
     }
-    if (image_url != null || !forView) {
-      map['image_url'] = image_url;
+    if (urlToImage != null || !forView) {
+      map['urlToImage'] = urlToImage;
     }
-    if (published_at != null) {
-      map['published_at'] = forJson
-          ? published_at!.toString()
+    if (publishedAt != null) {
+      map['publishedAt'] = forJson
+          ? publishedAt!.toString()
           : forQuery
-              ? published_at!.millisecondsSinceEpoch
-              : published_at;
-    } else if (published_at != null || !forView) {
-      map['published_at'] = null;
+              ? publishedAt!.millisecondsSinceEpoch
+              : publishedAt;
+    } else if (publishedAt != null || !forView) {
+      map['publishedAt'] = null;
     }
     if (content != null || !forView) {
       map['content'] = content;
@@ -351,17 +351,17 @@ class Articles extends TableBase {
     if (url != null || !forView) {
       map['url'] = url;
     }
-    if (image_url != null || !forView) {
-      map['image_url'] = image_url;
+    if (urlToImage != null || !forView) {
+      map['urlToImage'] = urlToImage;
     }
-    if (published_at != null) {
-      map['published_at'] = forJson
-          ? published_at!.toString()
+    if (publishedAt != null) {
+      map['publishedAt'] = forJson
+          ? publishedAt!.toString()
           : forQuery
-              ? published_at!.millisecondsSinceEpoch
-              : published_at;
-    } else if (published_at != null || !forView) {
-      map['published_at'] = null;
+              ? publishedAt!.millisecondsSinceEpoch
+              : publishedAt;
+    } else if (publishedAt != null || !forView) {
+      map['publishedAt'] = null;
     }
     if (content != null || !forView) {
       map['content'] = content;
@@ -426,8 +426,8 @@ class Articles extends TableBase {
       title,
       description,
       url,
-      image_url,
-      published_at != null ? published_at!.millisecondsSinceEpoch : null,
+      urlToImage,
+      publishedAt != null ? publishedAt!.millisecondsSinceEpoch : null,
       content,
       created_at != null ? created_at!.millisecondsSinceEpoch : null,
       updated_at != null ? updated_at!.millisecondsSinceEpoch : null,
@@ -444,8 +444,8 @@ class Articles extends TableBase {
       title,
       description,
       url,
-      image_url,
-      published_at != null ? published_at!.millisecondsSinceEpoch : null,
+      urlToImage,
+      publishedAt != null ? publishedAt!.millisecondsSinceEpoch : null,
       content,
       created_at != null ? created_at!.millisecondsSinceEpoch : null,
       updated_at != null ? updated_at!.millisecondsSinceEpoch : null,
@@ -561,7 +561,7 @@ class Articles extends TableBase {
     final result = BoolResult(success: false);
     try {
       await _mnArticles.rawInsert(
-          'INSERT ${isSaved! ? 'OR REPLACE' : ''} INTO articles (uuid, author, title, description, url, image_url, published_at, content, created_at, updated_at, deleted_at, source_uuid)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT ${isSaved! ? 'OR REPLACE' : ''} INTO articles (uuid, author, title, description, url, urlToImage, publishedAt, content, created_at, updated_at, deleted_at, source_uuid)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
           toArgsWithIds(),
           ignoreBatch);
       result.success = true;
@@ -601,15 +601,15 @@ class Articles extends TableBase {
   Future<int?> upsert({bool ignoreBatch = true}) async {
     try {
       final result = await _mnArticles.rawInsert(
-          'INSERT OR REPLACE INTO articles (uuid, author, title, description, url, image_url, published_at, content, created_at, updated_at, deleted_at, source_uuid)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT OR REPLACE INTO articles (uuid, author, title, description, url, urlToImage, publishedAt, content, created_at, updated_at, deleted_at, source_uuid)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             uuid,
             author,
             title,
             description,
             url,
-            image_url,
-            published_at != null ? published_at!.millisecondsSinceEpoch : null,
+            urlToImage,
+            publishedAt != null ? publishedAt!.millisecondsSinceEpoch : null,
             content,
             created_at != null ? created_at!.millisecondsSinceEpoch : null,
             updated_at != null ? updated_at!.millisecondsSinceEpoch : null,
@@ -898,15 +898,15 @@ class ArticlesFilterBuilder extends ConjunctionBase {
     return _url = _setField(_url, 'url', DbType.text);
   }
 
-  ArticlesField? _image_url;
-  ArticlesField get image_url {
-    return _image_url = _setField(_image_url, 'image_url', DbType.text);
+  ArticlesField? _urlToImage;
+  ArticlesField get urlToImage {
+    return _urlToImage = _setField(_urlToImage, 'urlToImage', DbType.text);
   }
 
-  ArticlesField? _published_at;
-  ArticlesField get published_at {
-    return _published_at =
-        _setField(_published_at, 'published_at', DbType.datetime);
+  ArticlesField? _publishedAt;
+  ArticlesField get publishedAt {
+    return _publishedAt =
+        _setField(_publishedAt, 'publishedAt', DbType.datetime);
   }
 
   ArticlesField? _content;
@@ -1194,16 +1194,16 @@ class ArticlesFields {
     return _fUrl = _fUrl ?? SqlSyntax.setField(_fUrl, 'url', DbType.text);
   }
 
-  static TableField? _fImage_url;
-  static TableField get image_url {
-    return _fImage_url = _fImage_url ??
-        SqlSyntax.setField(_fImage_url, 'image_url', DbType.text);
+  static TableField? _furlToImage;
+  static TableField get urlToImage {
+    return _furlToImage = _furlToImage ??
+        SqlSyntax.setField(_furlToImage, 'urlToImage', DbType.text);
   }
 
-  static TableField? _fPublished_at;
-  static TableField get published_at {
-    return _fPublished_at = _fPublished_at ??
-        SqlSyntax.setField(_fPublished_at, 'published_at', DbType.datetime);
+  static TableField? _fpublishedAt;
+  static TableField get publishedAt {
+    return _fpublishedAt = _fpublishedAt ??
+        SqlSyntax.setField(_fpublishedAt, 'publishedAt', DbType.datetime);
   }
 
   static TableField? _fContent;
