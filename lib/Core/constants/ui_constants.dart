@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class UiConstants {
   //COLORS
 
+  static const double safeAreaOffset = 158;
+
   static const Color primaryBlue = Color(0xff5E81F4);
   static const Color primaryBlack = Color(0xff1C1D21);
   static const Color primaryGrey = Color(0xff8181A5);
@@ -19,6 +21,7 @@ class UiConstants {
   static const Color secondaryGreen10 = Color(0x1A7CE7AC);
   static const Color secondaryYellow10 = Color(0x1AF4BE5E);
   static const Color secondaryRed10 = Color(0x1AFF808B);
+  static const Color primaryBlack10 = Color(0x1A1C1D21);
 
   static const Color buttonHover = Color(0xff2B4EC1);
 
