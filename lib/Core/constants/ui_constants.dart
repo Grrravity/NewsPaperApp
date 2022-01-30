@@ -198,12 +198,12 @@ class UiConstants {
       fontFamily: 'Lato',
       fontWeight: FontWeight.w700,
       fontSize: 12,
-      color: primaryGrey);
+      color: primaryBlack);
   static const TextStyle regularText12 = TextStyle(
       fontFamily: 'Lato',
       fontWeight: FontWeight.w400,
       fontSize: 12,
-      color: primaryGrey);
+      color: primaryBlack);
   static const TextStyle regularTextBold12Grey = TextStyle(
       fontFamily: 'Lato',
       fontWeight: FontWeight.w700,
