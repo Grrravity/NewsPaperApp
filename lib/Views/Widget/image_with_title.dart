@@ -96,33 +96,53 @@ class ImageWithTitle extends StatelessWidget {
             ),
           ),
         ),
+        //Positioned(
+        //  bottom: 0,
+        //  left: 0,
+        //  child: Container(
+        //    height: 80,
+        //    width: width,
+        //    color: UiConstants.primaryBlack.withOpacity(0.4),
+        //  ),
+        //),
         Positioned(
-            bottom: 20,
-            left: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (title != null)
-                  SizedBox(
-                    width: width - 40,
-                    child: Text(
-                      title!,
-                      style: UiConstants.h5BoldWhite,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ),
-                if (title != null || date != null)
-                  const SizedBox(
-                    height: 8,
-                  ),
-                if (date != null)
-                  Text(
-                    DateFormat('dd/MM/yyyy HH:mm').format(date!),
-                    style: UiConstants.regularTextBold12
-                        .copyWith(color: UiConstants.backgroundWhite),
-                  )
-              ],
+            bottom: 0,
+            left: 0,
+            child: Container(
+              height: 95,
+              width: width,
+              color: title != null || date != null
+                  ? UiConstants.primaryBlack.withOpacity(0.4)
+                  : Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (title != null)
+                      SizedBox(
+                        width: width - 40,
+                        child: Text(
+                          title!,
+                          style: UiConstants.h3Bold
+                              .copyWith(color: UiConstants.backgroundWhite),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    if (title != null || date != null)
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    if (date != null)
+                      Text(
+                        DateFormat('dd/MM/yyyy HH:mm').format(date!),
+                        style: UiConstants.regularTextBold14
+                            .copyWith(color: UiConstants.backgroundWhite),
+                      )
+                  ],
+                ),
+              ),
             )),
       ],
     );

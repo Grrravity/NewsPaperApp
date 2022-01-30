@@ -7,7 +7,6 @@ import 'package:newspaperapp/Core/constants/ui_constants.dart';
 import 'package:newspaperapp/Views/Widget/app_scaffold.dart';
 import 'package:newspaperapp/Views/Widget/article_card.dart';
 import 'package:newspaperapp/Views/Widget/image_with_title.dart';
-import 'package:newspaperapp/model/database/database_model.dart';
 
 class HomeView extends GetView<HomeViewController> {
   HomeView({Key? key, required this.title}) : super(key: key);
@@ -71,9 +70,9 @@ class HomeView extends GetView<HomeViewController> {
           ImageWithTitle.sharp(
               width: size.width,
               height: size.width * 0.44,
-              imageUrl: controller.articles.first.image_url ?? '',
+              imageUrl: controller.articles.first.urlToImage ?? '',
               title: controller.articles.first.title ?? 'Pas de titre',
-              date: controller.articles.first.published_at ?? DateTime.now()),
+              date: controller.articles.first.publishedAt ?? DateTime.now()),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: SizedBox(
@@ -87,7 +86,7 @@ class HomeView extends GetView<HomeViewController> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ArticleCard.simple(
-                            article: Articles(),
+                            article: controller.articles[index],
                             width: size.width,
                             height: 100),
                       );
