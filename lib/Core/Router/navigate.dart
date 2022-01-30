@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:newspaperapp/Controller/Home/home_view_controller.dart';
+import 'package:newspaperapp/Controller/Home/home_controller_bindings.dart';
 import 'package:newspaperapp/Core/Router/routes.dart';
 import 'package:newspaperapp/Views/pages/home.dart';
 
@@ -8,7 +8,7 @@ class Navigate {
     GetPage(
       name: Routes.home,
       page: () => HomeView(title: 'NewsPaperApp'),
-      binding: BindingsBuilder(() => {Get.put(HomeViewController())}),
+      binding: HomeControllerBindings(),
     ),
     GetPage(name: Routes.notFound, page: () => HomeView(title: 'NewsPaperApp')),
     GetPage(name: Routes.article, page: () => HomeView(title: 'NewsPaperApp')),

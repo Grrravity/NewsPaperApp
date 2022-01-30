@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:newspaperapp/model/database/database_model.dart';
+import 'package:newspaperapp/Infrastructure/Api/rest_api_toast.dart';
+import 'package:newspaperapp/Infrastructure/Repositories/everything_repository_impl.dart';
+import 'package:newspaperapp/Infrastructure/Repositories/top_repository_impl.dart';
 
 class HomeViewController extends GetxController
     with StateMixin, GetSingleTickerProviderStateMixin {
+  final EverythingRepositoryImpl everythingRepository;
+  final TopRepositoryImpl topRepositoryImpl;
+
+  HomeViewController(
+      {required this.everythingRepository, required this.topRepositoryImpl});
+
   //Animation
   late AnimationController animationController;
   late Animation<double> animation;
