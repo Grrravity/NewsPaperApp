@@ -39,31 +39,7 @@ class HomeViewController extends GetxController
     });
     animationController.forward();
 
-    change(null, status: RxStatus.loading());
-    //Get data
-    if (await hasInternet()) {
-      await fetchFromApi();
-    } else {
-      await getLocalData();
-    }
-    //populate vars
-    try {
-      if (articles.isNotEmpty) {
-        topArticle.value = articles.elementAt(0);
-        articles.removeAt(0);
-        //Stop animation when not used anymore
-        animationController.stop();
-        change(null, status: RxStatus.success());
-      } else {
-        //Stop animation when not used anymore
-        animationController.dispose();
-        change(null, status: RxStatus.empty());
-      }
-    } catch (e) {
-      //Stop animation when not used anymore
-      animationController.dispose();
-      change(null, status: RxStatus.error(e.toString()));
-    }
+    await resetView();
     super.onInit();
   }
 
@@ -110,15 +86,41 @@ class HomeViewController extends GetxController
         }));
   }
 
-  /// Fetch data and remplace all local data with the result
-  /// If result is empty, get local data instead
-  Future<void> searchArticle() async {
+  resetView() async {
+    change(null, status: RxStatus.loading());
+    //Get data
+    if (await hasInternet()) {
+      await fetchFromApi();
+    } else {
+      await getLocalData();
+    }
+    //populate vars
+    try {
+      if (articles.isNotEmpty) {
+        topArticle.value = articles.elementAt(0);
+        articles.removeAt(0);
+        //Stop animation when not used anymore
+        animationController.stop();
+        change(null, status: RxStatus.success());
+      } else {
+        //Stop animation when not used anymore
+        animationController.dispose();
+        change(null, status: RxStatus.empty());
+      }
+    } catch (e) {
+      //Stop animation when not used anymore
+      animationController.dispose();
+      change(null, status: RxStatus.error(e.toString()));
+    }
+  }
+
+  /// Request result from everything query then update UI
+  Future<void> searchArticle(String value) async {
     articles.clear();
     await everythingRepository.getArticles(
-      queryParameters: {"q": "business"},
+      queryParameters: {"q": value},
     ).then((option) => option.fold((l) async {
           articles = [];
-          await getLocalData();
           return;
         }, (r) async {
           articles.addAll(r);

@@ -49,14 +49,46 @@ class HomeView extends GetView<HomeViewController> {
         body: controller.obx(
           (state) => _buildContent(context),
           onLoading: _buildLoader(context),
-          onEmpty: const Center(
-              child:
-                  Text('Aucun contenu', style: UiConstants.secondaryText12Red)),
+          onEmpty: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text('Aucun contenu',
+                    style: UiConstants.secondaryText12Red),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: UiConstants.primaryBlue),
+                    onPressed: () => controller.resetView(),
+                    child: const Icon(LineAwesomeIcons.sync_icon),
+                  ),
+                ),
+              ],
+            ),
+          ),
           onError: (error) => Center(
-              child: Text(
-                  error ??
-                      'Erreur de chargement de la page. Réessayez plus tard',
-                  style: UiConstants.secondaryText12Red)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                    error ??
+                        'Erreur de chargement de la page. Réessayez plus tard',
+                    style: UiConstants.secondaryText12Red),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: UiConstants.primaryBlue),
+                    onPressed: () => controller.resetView(),
+                    child: const Icon(LineAwesomeIcons.sync_icon),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ));
   }
 
@@ -67,12 +99,17 @@ class HomeView extends GetView<HomeViewController> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ImageWithTitle.sharp(
-              width: size.width,
-              height: size.width * 0.44,
-              imageUrl: controller.articles.first.urlToImage ?? '',
-              title: controller.articles.first.title ?? 'Pas de titre',
-              date: controller.articles.first.publishedAt ?? DateTime.now()),
+          InkWell(
+            onTap: () {
+              Get.toNamed(Routes.article);
+            },
+            child: ImageWithTitle.sharp(
+                width: size.width,
+                height: size.width * 0.44,
+                imageUrl: controller.articles.first.urlToImage ?? '',
+                title: controller.articles.first.title ?? 'Pas de titre',
+                date: controller.articles.first.publishedAt ?? DateTime.now()),
+          ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: SizedBox(
@@ -83,12 +120,17 @@ class HomeView extends GetView<HomeViewController> {
                 child: ListView.builder(
                     itemCount: controller.articles.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: ArticleCard.simple(
-                            article: controller.articles[index],
-                            width: size.width,
-                            height: 100),
+                      return InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.article);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: ArticleCard.simple(
+                              article: controller.articles[index],
+                              width: size.width,
+                              height: 100),
+                        ),
                       );
                     }),
               )),
