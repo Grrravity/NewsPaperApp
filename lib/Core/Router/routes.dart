@@ -3,5 +3,6 @@ class Routes {
 
   static const String notFound = '/404';
   static const String home = '/';
+  static const String category = '/category';
   static const String article = '/article';
 }
