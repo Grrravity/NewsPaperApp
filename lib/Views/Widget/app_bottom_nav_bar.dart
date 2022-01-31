@@ -59,7 +59,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           Get.offAllNamed(Routes.home);
           break;
         case 1:
-          Get.offAllNamed(Routes.categories);
+          Get.offAllNamed(Routes.notFound);
           break;
 
         default:
