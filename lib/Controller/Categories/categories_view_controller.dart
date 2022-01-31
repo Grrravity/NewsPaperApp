@@ -54,7 +54,7 @@ class CategoriesViewController extends GetxController
 
   changeCategory(Category cat) {
     Get.replace<Category>(cat);
-    category.value = cat.toShortString();
+    category.value = getCategoryTranslation(cat);
     Get.offAllNamed(Routes.home);
   }
 }
