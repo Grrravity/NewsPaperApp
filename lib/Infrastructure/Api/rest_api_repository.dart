@@ -18,6 +18,7 @@ abstract class RestApiRepository {
     required this.client,
   }) : _controller = controller;
 
+  ///Make a get request with optional [queryParameters] and toasts displays
   Future<Either<InfrastructureValueFailure<String>, dynamic>>
       handlingGetResponse({
     required String queryRoute,
@@ -160,6 +161,7 @@ Either<InfrastructureValueFailure<String>, dynamic> verifError({
   }
 }
 
+///Prints error in production to provide easy-debug on api's request
 void printError({e, required ValueFailure failure}) {
   print('\x1B[31m   --------------------   ');
   print('\x1B[31mERROR => ${e.toString()}');

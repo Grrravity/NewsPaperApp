@@ -7,7 +7,7 @@ import 'package:newspaperapp/Core/constants/ui_constants.dart';
 class AppBottomNavigationBar extends StatelessWidget {
   int currentIndex;
 
-  /// Barre de navigation sur mobile
+  /// Mobile navigation bar
   ///
   /// ```
   /// AppBottomNavigationBar(

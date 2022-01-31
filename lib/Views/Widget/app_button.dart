@@ -7,7 +7,7 @@ class AppButton extends StatelessWidget {
   /// [value] =>  Text to display
   ///
   /// ```
-  ///   XButton.redOutlined(
+  ///   AppButton.redOutlined(
   ///       required String value,
   ///       required void Function() onPressed,
   ///       double? width,
@@ -36,7 +36,7 @@ class AppButton extends StatelessWidget {
     this.enabled = true,
     this.borderRadius = const BorderRadius.all(Radius.circular(20)),
   });
-  //Bouton faible arrondit , texte gris , bordures grises
+  //grey soft button
   factory AppButton.grey({
     required String value,
     required void Function() onPressed,
@@ -55,7 +55,7 @@ class AppButton extends StatelessWidget {
       enabled: enabled,
     );
   }
-  //Bouton arrondit, texte blanc, background blanc, bordures rouges
+  //Rounded primary blue button
   factory AppButton.blueOutlined({
     required String value,
     required void Function() onPressed,
