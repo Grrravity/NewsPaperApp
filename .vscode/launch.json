@@ -1,0 +1,24 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "NewsPaperApp",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42",
+                "--dart-define","BASE_URL=https://newsapi.org/v2"
+            ],
+        },
+        {
+            "name": "NewsPaperApp (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        }
+    ]
+}
