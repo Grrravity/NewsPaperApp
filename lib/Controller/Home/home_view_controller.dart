@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 import 'package:newspaperapp/Infrastructure/Api/rest_api_toast.dart';
 import 'package:newspaperapp/Infrastructure/Repositories/everything_repository_impl.dart';
 import 'package:newspaperapp/Infrastructure/Repositories/top_repository_impl.dart';
@@ -20,6 +21,7 @@ class HomeViewController extends GetxController
   late Animation<double> animation;
 
   //Variables
+  late Category category;
   List<Articles> articles = <Articles>[].obs;
   Rx<Articles> topArticle = Articles().obs;
   Map<String, String> sortMap = {
@@ -62,6 +64,8 @@ class HomeViewController extends GetxController
     searchItemController =
         TextEditingController(text: search.value.toLowerCase());
 
+    category = Get.find<Category>();
+
     await resetView();
     super.onInit();
   }
@@ -75,7 +79,7 @@ class HomeViewController extends GetxController
   Future<void> fetchFromApi() async {
     articles.clear();
     await topRepositoryImpl.getTopArticles(
-      queryParameters: {"category": "business"},
+      queryParameters: {"category": category.toShortString()},
     ).then((option) => option.fold((l) async {
           articles = [];
           await getLocalData();
