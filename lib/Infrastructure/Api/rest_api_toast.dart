@@ -39,6 +39,7 @@ Widget _iconSucces = Padding(
 );
 
 class Toast extends SnackBar {
+  ///Make a customizable contextless toast with factory.
   Toast._({
     required Widget content,
     required Duration duration,

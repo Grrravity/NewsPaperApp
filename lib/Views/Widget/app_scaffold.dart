@@ -11,15 +11,9 @@ class AppScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final PreferredSizeWidget? appBar;
 
-  /// Scaffold personnalisé pour l'application mobile
-  ///
-  /// Il est possible de cacher la barre de navigation et de personnaliser une appBar et une floatingActionButton
-  ///
-  /// ---
-  ///
-  /// Example d'utilisation :
-  /// ```
-  /// XMobileScaffold(
+  /// Custom mobile app scaffold with AppBar and Floating action button
+  /// ```dart
+  /// AppScaffold(
   ///   currentIndex: 0,
   ///   body: const Center(
   ///     child: Text(
@@ -42,6 +36,7 @@ class AppScaffold extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: UiConstants.background,
         body: body,
         appBar: appBar,
