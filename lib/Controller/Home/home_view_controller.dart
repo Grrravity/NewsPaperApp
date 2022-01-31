@@ -22,12 +22,26 @@ class HomeViewController extends GetxController
   //Variables
   List<Articles> articles = <Articles>[].obs;
   Rx<Articles> topArticle = Articles().obs;
-  List<String> sortList = ['Pertinence', 'Popularité', 'Date de publication'];
-  List<String> sortBy = ['relevancy', 'popularity', 'publishedAt'];
+  Map<String, String> sortMap = {
+    'Aucun': '',
+    'Pertinence': 'relevancy',
+    'Popularité': 'popularity',
+    'Date de publication': 'publishedAt'
+  };
+  Map<String, String> languageMap = {
+    'Aucune': '',
+    'Deutsch': 'de',
+    'English': 'en',
+    'Español': 'es',
+    'Français': 'fr',
+    'Italiano': 'it'
+  };
   //Search form
   late TextEditingController searchItemController;
   RxString search = ''.obs;
-  RxInt indexSortValue = 0.obs;
+  RxInt sortValue = 0.obs;
+  RxInt languageValue = 4.obs;
+  RxBool isSearching = false.obs;
 
   @override
   void onInit() async {
@@ -97,6 +111,7 @@ class HomeViewController extends GetxController
 
   resetView() async {
     change(null, status: RxStatus.loading());
+    isSearching.value = false;
     //Get data
     if (await hasInternet()) {
       await fetchFromApi();
@@ -130,43 +145,63 @@ class HomeViewController extends GetxController
   /// Request result from everything query then update UI
   Future<void> searchArticles(String value) async {
     change(null, status: RxStatus.loading());
+    isSearching.value = true;
     articles.clear();
-    await everythingRepository.getArticles(
-      queryParameters: {"q": value, "sortBy": sortBy[indexSortValue.value]},
-    ).then((option) => option.fold((l) async {
-          articles = [];
-          resetArticles();
-          return;
-        }, (r) async {
-          articles.addAll(r);
-          await Articles().select(getIsDeleted: true).delete(true);
-          for (var element in articles) {
-            element.uuid = const Uuid().v4();
-            element.plSources?.uuid = const Uuid().v4();
-          }
-          final result = await Articles.saveAll(articles);
-          if (result.every((element) => element.success)) {
-            Toast.showSnackBar(
-                context: Get.context!,
-                snackBar: Toast.success(message: "Données sauvegardées"));
-            resetArticles();
-            return;
-          } else if (result.any((element) => element.success)) {
-            Toast.showSnackBar(
-                context: Get.context!,
-                snackBar: Toast.simple(
-                    message: "Les données n'ont pas été sauvegardées"));
-            resetArticles();
-            return;
-          } else {
-            Toast.showSnackBar(
-                context: Get.context!,
-                snackBar: Toast.error(
-                    message: "Les données n'ont pas été sauvegardées"));
-            resetArticles();
-            return;
-          }
-        }));
+    Map<String, dynamic> queryParam = {};
+    if (value != '') {
+      queryParam.addAll({"q": value});
+    }
+    if (sortValue.value != 0) {
+      queryParam.addAll({"sortBy": sortMap.values.elementAt(sortValue.value)});
+    }
+    if (languageValue.value != 0) {
+      queryParam.addAll(
+          {"language": languageMap.values.elementAt(languageValue.value)});
+    }
+    await everythingRepository
+        .getArticles(
+          queryParameters: queryParam,
+        )
+        .then((option) => option.fold((l) async {
+              articles = [];
+              resetArticles();
+              return;
+            }, (r) async {
+              articles.addAll(r);
+              await Articles().select(getIsDeleted: true).delete(true);
+              for (var element in articles) {
+                element.uuid = const Uuid().v4();
+                element.plSources?.uuid = const Uuid().v4();
+              }
+              final result = await Articles.saveAll(articles);
+              if (result.every((element) => element.success)) {
+                Toast.showSnackBar(
+                    context: Get.context!,
+                    snackBar: Toast.success(message: "Données sauvegardées"));
+                resetArticles();
+                return;
+              } else if (result.any((element) => element.success)) {
+                Toast.showSnackBar(
+                    context: Get.context!,
+                    snackBar: Toast.simple(
+                        message: "Les données n'ont pas été sauvegardées"));
+                resetArticles();
+                return;
+              } else {
+                Toast.showSnackBar(
+                    context: Get.context!,
+                    snackBar: Toast.error(
+                        message: "Les données n'ont pas été sauvegardées"));
+                resetArticles();
+                return;
+              }
+            }));
+  }
+
+  resetSearchValues() {
+    search.value = '';
+    sortValue.value = 0;
+    languageValue.value = 3;
   }
 
   Future<bool> hasInternet() async {

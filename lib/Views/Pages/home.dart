@@ -31,17 +31,24 @@ class HomeView extends GetView<HomeViewController> {
             ),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: IconButton(
-                onPressed: () {
-                  Get.dialog(searchArticles());
-                },
-                icon: const Icon(
-                  LineAwesomeIcons.search,
-                  color: UiConstants.primaryBlue,
-                ),
-              ),
+            Obx(
+              () => Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: IconButton(
+                    onPressed: () async {
+                      if (controller.isSearching.value) {
+                        await controller.resetView();
+                      } else {
+                        Get.dialog(searchArticles());
+                      }
+                    },
+                    icon: Icon(
+                      controller.isSearching.value
+                          ? LineAwesomeIcons.trash
+                          : LineAwesomeIcons.search,
+                      color: UiConstants.primaryBlue,
+                    ),
+                  )),
             ),
           ],
         ),
@@ -53,7 +60,7 @@ class HomeView extends GetView<HomeViewController> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text('Aucun contenu',
+                const Text('Aucun résultat',
                     style: UiConstants.secondaryText12Red),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -190,34 +197,77 @@ class HomeView extends GetView<HomeViewController> {
                       ),
                       const SizedBox(height: 10),
                       DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(0, 18, 18, 18),
-                              labelText: 'Trier par'),
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down_sharp,
-                            color: UiConstants.primaryBlack,
-                          ),
-                          style: UiConstants.regularText12,
-                          iconEnabledColor: UiConstants.primaryBlack,
-                          iconDisabledColor: UiConstants.primaryBlack,
-                          isExpanded: true,
-                          value: controller
-                              .sortList[controller.indexSortValue.value],
-                          items: List.generate(
-                            controller.sortList.length,
-                            (index) => DropdownMenuItem(
-                              value: controller.sortList[index],
-                              child: Text(
-                                controller.sortList[index],
-                                style: UiConstants.buttonLabel14,
-                              ),
-                              onTap: () {
-                                controller.indexSortValue.value = index;
-                              },
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(0, 18, 18, 18),
+                            labelText: 'Trier par'),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_sharp,
+                          color: UiConstants.primaryBlack,
+                        ),
+                        style: UiConstants.regularText12,
+                        iconEnabledColor: UiConstants.primaryBlack,
+                        iconDisabledColor: UiConstants.primaryBlack,
+                        isExpanded: true,
+                        value: controller.sortMap.keys
+                            .elementAt(controller.sortValue.value),
+                        validator: (value) {
+                          if ((value == null)) {
+                            return 'Choisissez un élément de la liste';
+                          } else {
+                            return null;
+                          }
+                        },
+                        items: List.generate(
+                          controller.sortMap.keys.length,
+                          (index) => DropdownMenuItem(
+                            value: controller.sortMap.keys.elementAt(index),
+                            child: Text(
+                              controller.sortMap.keys.elementAt(index),
+                              style: UiConstants.buttonLabel14,
                             ),
+                            onTap: () {
+                              controller.sortValue.value = index;
+                            },
                           ),
-                          onChanged: (onChanged) {}),
+                        ),
+                        onChanged: (onChanged) {},
+                      ),
+                      DropdownButtonFormField(
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(0, 18, 18, 18),
+                            labelText: 'Langue'),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_sharp,
+                          color: UiConstants.primaryBlack,
+                        ),
+                        style: UiConstants.regularText12,
+                        iconEnabledColor: UiConstants.primaryBlack,
+                        iconDisabledColor: UiConstants.primaryBlack,
+                        isExpanded: true,
+                        value: controller.languageMap.keys
+                            .elementAt(controller.languageValue.value),
+                        validator: (value) {
+                          if ((value == null)) {
+                            return 'Choisissez un élément de la liste';
+                          } else {
+                            return null;
+                          }
+                        },
+                        items: List.generate(
+                          controller.languageMap.keys.length,
+                          (index) => DropdownMenuItem(
+                            value: controller.languageMap.keys.elementAt(index),
+                            child: Text(
+                              controller.languageMap.keys.elementAt(index),
+                              style: UiConstants.buttonLabel14,
+                            ),
+                            onTap: () {
+                              controller.languageValue.value = index;
+                            },
+                          ),
+                        ),
+                        onChanged: (onChanged) {},
+                      ),
                     ],
                   ),
                   const SizedBox(height: 30),
@@ -228,14 +278,16 @@ class HomeView extends GetView<HomeViewController> {
                       AppButton.grey(
                           value: "ANNULER",
                           onPressed: () {
-                            controller.search.value = '';
-                            controller.indexSortValue.value = 0;
+                            //Reset search values
+                            controller.resetSearchValues();
                             Get.back();
                           }),
                       AppButton.blueOutlined(
                           value: "RECHERCHER",
                           onPressed: () async {
+                            //Validate form
                             if (formGlobalKey.currentState!.validate()) {
+                              //Make search
                               controller
                                   .searchArticles(controller.search.value);
                               Get.back();
