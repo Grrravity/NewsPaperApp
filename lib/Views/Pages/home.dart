@@ -9,9 +9,7 @@ import 'package:newspaperapp/Views/Widget/article_card.dart';
 import 'package:newspaperapp/Views/Widget/image_with_title.dart';
 
 class HomeView extends GetView<HomeViewController> {
-  HomeView({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,11 @@ class HomeView extends GetView<HomeViewController> {
               padding: const EdgeInsets.all(10),
               child: IconButton(
                 onPressed: () {
-                  Get.toNamed(Routes.article);
+                  Get.toNamed(
+                    Routes.article,
+                    parameters: {"uuid": controller.topArticle.value.uuid!},
+                    preventDuplicates: true,
+                  );
                 },
                 icon: const Icon(
                   LineAwesomeIcons.search,
@@ -101,14 +103,19 @@ class HomeView extends GetView<HomeViewController> {
         children: <Widget>[
           InkWell(
             onTap: () {
-              Get.toNamed(Routes.article);
+              Get.toNamed(
+                Routes.article,
+                parameters: {"uuid": controller.topArticle.value.uuid!},
+                preventDuplicates: true,
+              );
             },
             child: ImageWithTitle.sharp(
                 width: size.width,
                 height: size.width * 0.44,
-                imageUrl: controller.articles.first.urlToImage ?? '',
-                title: controller.articles.first.title ?? 'Pas de titre',
-                date: controller.articles.first.publishedAt ?? DateTime.now()),
+                imageUrl: controller.topArticle.value.urlToImage ?? '',
+                title: controller.topArticle.value.title ?? 'Pas de titre',
+                date:
+                    controller.topArticle.value.publishedAt ?? DateTime.now()),
           ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -122,7 +129,13 @@ class HomeView extends GetView<HomeViewController> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          Get.toNamed(Routes.article);
+                          Get.toNamed(
+                            Routes.article,
+                            parameters: {
+                              "uuid": controller.articles[index].uuid!
+                            },
+                            preventDuplicates: true,
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
