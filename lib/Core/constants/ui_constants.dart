@@ -3,10 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class UiConstants {
-  //COLORS
-
   static const double safeAreaOffset = 158;
 
+  //COLORS
   static const Color primaryBlue = Color(0xff5E81F4);
   static const Color primaryBlack = Color(0xff1C1D21);
   static const Color primaryGrey = Color(0xff8181A5);
@@ -292,4 +291,83 @@ class UiConstants {
       fontWeight: FontWeight.w400,
       fontSize: 12,
       color: secondaryYellow);
+}
+
+enum Category {
+  business,
+  general,
+  entertainment,
+  health,
+  science,
+  sports,
+  technology
+}
+
+String getCategoryTranslation(Category category) {
+  switch (category.toShortString()) {
+    case 'business':
+      return 'Economie';
+    case 'entertainment':
+      return 'Loisirs';
+    case 'general':
+      return 'Général';
+    case 'health':
+      return 'Santé';
+    case 'science':
+      return 'Sciences';
+    case 'sports':
+      return 'Sport';
+    case 'technology':
+      return 'Technologies';
+    default:
+      return 'Business';
+  }
+}
+
+Category getCategoryFromString(String category) {
+  switch (category) {
+    case 'Economie':
+      return Category.business;
+    case 'Loisirs':
+      return Category.entertainment;
+    case 'Général':
+      return Category.general;
+    case 'Santé':
+      return Category.health;
+    case 'Sciences':
+      return Category.science;
+    case 'Sport':
+      return Category.sports;
+    case 'Technologies':
+      return Category.technology;
+    default:
+      return Category.business;
+  }
+}
+
+String getCategoryImagePath(Category category) {
+  switch (category.toShortString()) {
+    case 'business':
+      return 'assets/images/business.jpeg';
+    case 'entertainment':
+      return 'assets/images/entertainment.jpeg';
+    case 'general':
+      return 'assets/images/general.jpeg';
+    case 'health':
+      return 'assets/images/health.jpeg';
+    case 'science':
+      return 'assets/images/science.jpeg';
+    case 'sports':
+      return 'assets/images/sports.jpeg';
+    case 'technology':
+      return 'assets/images/technology.jpeg';
+    default:
+      return 'assets/images/imagenotfound.png';
+  }
+}
+
+extension ParseToString on Category {
+  String toShortString() {
+    return toString().split('.').last;
+  }
 }
