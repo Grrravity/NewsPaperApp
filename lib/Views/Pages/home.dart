@@ -4,6 +4,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:newspaperapp/Controller/Home/home_view_controller.dart';
 import 'package:newspaperapp/Core/Router/routes.dart';
 import 'package:newspaperapp/Core/constants/ui_constants.dart';
+import 'package:newspaperapp/Views/Widget/app_button.dart';
 import 'package:newspaperapp/Views/Widget/app_scaffold.dart';
 import 'package:newspaperapp/Views/Widget/article_card.dart';
 import 'package:newspaperapp/Views/Widget/image_with_title.dart';
@@ -34,11 +35,7 @@ class HomeView extends GetView<HomeViewController> {
               padding: const EdgeInsets.all(10),
               child: IconButton(
                 onPressed: () {
-                  Get.toNamed(
-                    Routes.article,
-                    parameters: {"uuid": controller.topArticle.value.uuid!},
-                    preventDuplicates: true,
-                  );
+                  Get.dialog(searchArticles());
                 },
                 icon: const Icon(
                   LineAwesomeIcons.search,
@@ -148,6 +145,109 @@ class HomeView extends GetView<HomeViewController> {
                     }),
               )),
         ],
+      ),
+    );
+  }
+
+  Dialog searchArticles() {
+    final formGlobalKey = GlobalKey<FormState>();
+    return Dialog(
+      child: IntrinsicHeight(
+        child: Container(
+          height: Get.height * 0.5,
+          width: Get.width * 0.8,
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Form(
+              key: formGlobalKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      const Text("Rechercher un article",
+                          style: UiConstants.h3BoldBlue),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        style: UiConstants.buttonLabel14,
+                        initialValue: "",
+                        decoration: InputDecoration(
+                            hintText: 'Mot clef, titre, contenu...',
+                            hintStyle: UiConstants.secondaryText12Blue
+                                .copyWith(fontStyle: FontStyle.italic)),
+                        onChanged: (value) {
+                          controller.search.value = value;
+                        },
+                        validator: (value) {
+                          if ((value ?? "").length < 2) {
+                            return 'Veuillez préciser votre recherche';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(0, 18, 18, 18),
+                              labelText: 'Trier par'),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down_sharp,
+                            color: UiConstants.primaryBlack,
+                          ),
+                          style: UiConstants.regularText12,
+                          iconEnabledColor: UiConstants.primaryBlack,
+                          iconDisabledColor: UiConstants.primaryBlack,
+                          isExpanded: true,
+                          value: controller
+                              .sortList[controller.indexSortValue.value],
+                          items: List.generate(
+                            controller.sortList.length,
+                            (index) => DropdownMenuItem(
+                              value: controller.sortList[index],
+                              child: Text(
+                                controller.sortList[index],
+                                style: UiConstants.buttonLabel14,
+                              ),
+                              onTap: () {
+                                controller.indexSortValue.value = index;
+                              },
+                            ),
+                          ),
+                          onChanged: (onChanged) {}),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AppButton.grey(
+                          value: "ANNULER",
+                          onPressed: () {
+                            controller.search.value = '';
+                            controller.indexSortValue.value = 0;
+                            Get.back();
+                          }),
+                      AppButton.blueOutlined(
+                          value: "RECHERCHER",
+                          onPressed: () async {
+                            if (formGlobalKey.currentState!.validate()) {
+                              controller
+                                  .searchArticles(controller.search.value);
+                              Get.back();
+                            }
+                          }),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

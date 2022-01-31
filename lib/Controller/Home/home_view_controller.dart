@@ -22,6 +22,12 @@ class HomeViewController extends GetxController
   //Variables
   List<Articles> articles = <Articles>[].obs;
   Rx<Articles> topArticle = Articles().obs;
+  List<String> sortList = ['Pertinence', 'Popularité', 'Date de publication'];
+  List<String> sortBy = ['relevancy', 'popularity', 'publishedAt'];
+  //Search form
+  late TextEditingController searchItemController;
+  RxString search = ''.obs;
+  RxInt indexSortValue = 0.obs;
 
   @override
   void onInit() async {
@@ -38,6 +44,9 @@ class HomeViewController extends GetxController
       }
     });
     animationController.forward();
+
+    searchItemController =
+        TextEditingController(text: search.value.toLowerCase());
 
     await resetView();
     super.onInit();
@@ -95,6 +104,10 @@ class HomeViewController extends GetxController
       await getLocalData();
     }
     //populate vars
+    resetArticles();
+  }
+
+  resetArticles() {
     try {
       if (articles.isNotEmpty) {
         topArticle.value = articles.elementAt(0);
@@ -104,23 +117,25 @@ class HomeViewController extends GetxController
         change(null, status: RxStatus.success());
       } else {
         //Stop animation when not used anymore
-        animationController.dispose();
+        animationController.stop();
         change(null, status: RxStatus.empty());
       }
     } catch (e) {
       //Stop animation when not used anymore
-      animationController.dispose();
+      animationController.stop();
       change(null, status: RxStatus.error(e.toString()));
     }
   }
 
   /// Request result from everything query then update UI
-  Future<void> searchArticle(String value) async {
+  Future<void> searchArticles(String value) async {
+    change(null, status: RxStatus.loading());
     articles.clear();
     await everythingRepository.getArticles(
-      queryParameters: {"q": value},
+      queryParameters: {"q": value, "sortBy": sortBy[indexSortValue.value]},
     ).then((option) => option.fold((l) async {
           articles = [];
+          resetArticles();
           return;
         }, (r) async {
           articles.addAll(r);
@@ -134,18 +149,21 @@ class HomeViewController extends GetxController
             Toast.showSnackBar(
                 context: Get.context!,
                 snackBar: Toast.success(message: "Données sauvegardées"));
+            resetArticles();
             return;
           } else if (result.any((element) => element.success)) {
             Toast.showSnackBar(
                 context: Get.context!,
                 snackBar: Toast.simple(
                     message: "Les données n'ont pas été sauvegardées"));
+            resetArticles();
             return;
           } else {
             Toast.showSnackBar(
                 context: Get.context!,
                 snackBar: Toast.error(
                     message: "Les données n'ont pas été sauvegardées"));
+            resetArticles();
             return;
           }
         }));

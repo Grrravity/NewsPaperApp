@@ -42,6 +42,7 @@ class AppScaffold extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: UiConstants.background,
         body: body,
         appBar: appBar,
