@@ -40,6 +40,8 @@ class AppBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       elevation: 1,
       backgroundColor: UiConstants.backgroundWhite,
+      selectedItemColor: UiConstants.primaryBlue,
+      unselectedItemColor: UiConstants.primaryGrey,
       currentIndex: currentIndex,
       onTap: (value) {
         if (currentIndex != value) navigateTo(value);
@@ -57,7 +59,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           Get.offAllNamed(Routes.home);
           break;
         case 1:
-          Get.offAllNamed(Routes.category);
+          Get.offAllNamed(Routes.categories);
           break;
 
         default:
