@@ -95,19 +95,7 @@ class CategoriesView extends GetView<CategoriesViewController> {
                     boxFit: BoxFit.fitHeight,
                     title: getCategoryTranslation(Category.values[index]),
                     imageUrl: getCategoryImagePath(Category.values[index]),
-                  )
-                  //Container(
-                  //  alignment: Alignment.center,
-                  //  child: Text(
-                  //    getCategoryTranslation(Category.values[index]),
-                  //    style: UiConstants.regularTextBold12
-                  //        .copyWith(color: UiConstants.backgroundWhite),
-                  //  ),
-                  //  decoration: BoxDecoration(
-                  //      color: Colors.amber,
-                  //      borderRadius: BorderRadius.circular(12)),
-                  //),
-                  );
+                  ));
             }),
       ),
     );
