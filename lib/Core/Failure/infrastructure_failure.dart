@@ -62,6 +62,14 @@ class InfrastructureValueFailure<T> extends ValueFailure<T> {
     return InfrastructureValueFailure._(message: message, details: details);
   }
 
+  /// Too many request
+  factory InfrastructureValueFailure.tooManyRequest({
+    T? details,
+    required T message,
+  }) {
+    return InfrastructureValueFailure._(message: message, details: details);
+  }
+
   /// Unauthorized access to API
   factory InfrastructureValueFailure.unAuthorized({
     T? details,
