@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 import 'package:newspaperapp/Core/Router/routes.dart';
-import 'package:newspaperapp/Core/constants/ui_constants.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   int currentIndex;
 
-  /// Barre de navigation sur mobile
+  /// Mobile navigation bar
   ///
   /// ```
   /// AppBottomNavigationBar(
@@ -40,6 +40,8 @@ class AppBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       elevation: 1,
       backgroundColor: UiConstants.backgroundWhite,
+      selectedItemColor: UiConstants.primaryBlue,
+      unselectedItemColor: UiConstants.primaryGrey,
       currentIndex: currentIndex,
       onTap: (value) {
         if (currentIndex != value) navigateTo(value);
@@ -57,7 +59,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           Get.offAllNamed(Routes.home);
           break;
         case 1:
-          Get.offAllNamed(Routes.category);
+          Get.offAllNamed(Routes.categories);
           break;
 
         default:

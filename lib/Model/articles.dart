@@ -1,4 +1,4 @@
-import 'package:newspaperapp/model/sources.dart';
+import 'package:newspaperapp/Model/sources.dart';
 import 'package:sqfentity_gen/sqfentity_gen.dart';
 
 const articles = SqfEntityTable(
