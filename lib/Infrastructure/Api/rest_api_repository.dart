@@ -48,17 +48,51 @@ abstract class RestApiRepository {
 extension OnHttpError on Response {
   InfrastructureValueFailure<String> get handlingHttpErrors {
     String message = body['code'];
-    message = message.tr.capitalizeFirst ?? message.tr;
-    String details = body['details'];
+    String details = body['message'];
     // NOTE - This is required
     // ignore: unnecessary_this
+
+    switch (message) {
+      case "apiKeyInvalid":
+        message = "Clef d'api invalide";
+        break;
+      case 'apiKeyMissing':
+        message = "Clef d'api manquante";
+        break;
+      case 'apiKeyExhausted':
+        message = "Clef d'api épuisée";
+        break;
+      case 'apiKeyDisabled':
+        message = "Clef d'api désactivée";
+        break;
+      case 'parameterInvalid':
+        message = "Paramètre(s) invalide(s)";
+        break;
+      case 'parametersMissing':
+        message = "Paramètre(s) manquant(s)";
+        break;
+      case 'rateLimited':
+        message = "Taux de requête limité";
+        break;
+      case 'sourcesTooMany':
+        message = "Trop de sources demandées";
+        break;
+      case 'sourceDoesNotExist':
+        message = "La source n'existe pas";
+        break;
+      case 'unexpectedError':
+        message = "Erreur innatendue";
+        break;
+      default:
+        message = message;
+    }
     switch (this.statusCode) {
       case 206:
         return InfrastructureValueFailure.partialContent(
           message: message,
           detail: details,
         );
-      case 403:
+      case 401:
         return InfrastructureValueFailure.unAuthorized(
           message: message,
           details: details,
@@ -70,6 +104,11 @@ extension OnHttpError on Response {
         );
       case 408:
         return InfrastructureValueFailure.timeout(
+          message: message,
+          details: details,
+        );
+      case 429:
+        return InfrastructureValueFailure.tooManyRequest(
           message: message,
           details: details,
         );

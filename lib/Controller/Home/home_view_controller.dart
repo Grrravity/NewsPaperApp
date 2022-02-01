@@ -72,19 +72,27 @@ class HomeViewController extends GetxController
   }
 
   Future<void> getLocalData() async {
-    articles = await Articles().select().toList();
-    Toast.showSnackBar(
-        context: Get.context!,
-        snackBar: Toast.warning(
-            message:
-                "Aucun accès internet, les données affichées sont celles stockés localement",
-            action: SnackBarAction(
-              label: 'REINITIALISER',
-              textColor: UiConstants.secondaryGreen,
-              onPressed: () {
-                resetView();
-              },
-            )));
+    try {
+      articles = await Articles().select().toList();
+      if (articles.isNotEmpty) {
+        Toast.showSnackBar(
+            context: Get.context!,
+            snackBar: Toast.warning(
+                message:
+                    "Aucun accès internet, les données affichées sont celles stockés localement",
+                action: SnackBarAction(
+                  label: 'REINITIALISER',
+                  textColor: UiConstants.secondaryGreen,
+                  onPressed: () {
+                    resetView();
+                  },
+                )));
+      } else {
+        change(null, status: RxStatus.empty());
+      }
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
   }
 
   /// Fetch data and remplace all local data with the result
