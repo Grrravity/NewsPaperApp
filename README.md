@@ -62,7 +62,7 @@ git clone https://github.com/Grrravity/NewsPaperApp.git
 
 ```bash
 cd NewsPaperApp
-flutter build apk --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42" --dart-define="BASE_URL=https://newsapi.org/v2"
+flutter build apk --debug --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42" --dart-define="BASE_URL=https://newsapi.org/v2"
 flutter install
 ```
 
@@ -80,7 +80,7 @@ git clone https://github.com/Grrravity/NewsPaperApp.git
 
 ```bash
 cd NewsPaperApp
-flutter build ios --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42" --dart-define="BASE_URL=https://newsapi.org/v2"
+flutter build ios --debug --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42" --dart-define="BASE_URL=https://newsapi.org/v2"
 ```
 
 3. Now in Xcode, open Runner.xcworkspace in your NewsPaperApp app's ios folder
