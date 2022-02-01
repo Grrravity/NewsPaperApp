@@ -41,10 +41,13 @@ This project use a custom MVC pattern with some addition of my liking.
 | :----------- | :----:  |
 | Android support   | ✔️        |
 | iOS support   | ✔️        |
-| Tablet support   | :hourglass_flowing_sand:        |
+| Tablet support   | ✔️        |
 | Web support   | :hourglass_flowing_sand:        |
 | Desktop support   | :x:        |
 | Testing   | :hourglass_flowing_sand:   |
+
+/!\ record speed : x2 /!\
+![App example](https://media.giphy.com/media/rods3PANc71GmZPLhl/giphy-downsized.gif)
 
 ## Android Installation *(require at least Flutter SDK)*
 
@@ -62,7 +65,7 @@ git clone https://github.com/Grrravity/NewsPaperApp.git
 
 ```bash
 cd NewsPaperApp
-flutter build apk
+flutter build apk --debug --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42" --dart-define="BASE_URL=https://newsapi.org/v2"
 flutter install
 ```
 
@@ -80,7 +83,7 @@ git clone https://github.com/Grrravity/NewsPaperApp.git
 
 ```bash
 cd NewsPaperApp
-flutter build ios
+flutter build ios --debug --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42" --dart-define="BASE_URL=https://newsapi.org/v2"
 ```
 
 3. Now in Xcode, open Runner.xcworkspace in your NewsPaperApp app's ios folder
