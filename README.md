@@ -41,7 +41,7 @@ This project use a custom MVC pattern with some addition of my liking.
 | :----------- | :----:  |
 | Android support   | ✔️        |
 | iOS support   | ✔️        |
-| Tablet support   | :hourglass_flowing_sand:        |
+| Tablet support   | ✔️        |
 | Web support   | :hourglass_flowing_sand:        |
 | Desktop support   | :x:        |
 | Testing   | :hourglass_flowing_sand:   |
