@@ -31,6 +31,10 @@ This project use a custom MVC pattern with some addition of my liking.
 - Views contains the UI
   - Pages displayed
   - Reusable widgets with Factory
+
+- Controller contains business logic
+  - Page controller that does the logic and update the UI with data
+  - bindings to handle lifecycle
   
 
 | Implementations      | status |
