@@ -10,11 +10,6 @@ This app is an easy-to-use digital news feed.
 
 ## Architecture
 This project use a custom MVC pattern with some addition of my liking.
-Model : Contains entities / sqlite database to store data
-View: Contains pages and widgets to display in the UI
-Controller : Contains the business logic for each view
-Core : Contains utils and core functions like constants, env, error management system, navigation management...
-Infrastructure : ContainsAPI connection and repository implementations
 
 ### In this project:
 
