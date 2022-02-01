@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:newspaperapp/Core/constants/ui_constants.dart';
+import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 
 import 'app_bottom_nav_bar.dart';
 

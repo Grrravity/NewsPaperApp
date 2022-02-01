@@ -6,8 +6,8 @@ import 'package:newspaperapp/Controller/NotFound/not_found_view_controller.dart'
 import 'package:newspaperapp/Core/Router/routes.dart';
 import 'package:newspaperapp/Views/Pages/categories.dart';
 import 'package:newspaperapp/Views/Pages/detail.dart';
+import 'package:newspaperapp/Views/Pages/home.dart';
 import 'package:newspaperapp/Views/Pages/not_found.dart';
-import 'package:newspaperapp/Views/pages/home.dart';
 
 class Navigate {
   static List<GetPage> routes = [

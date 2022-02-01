@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:newspaperapp/Core/env/env.dart';
+import 'package:newspaperapp/Core/Env/env.dart';
 
 import 'rest_api_interceptor.dart';
 

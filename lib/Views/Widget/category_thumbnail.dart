@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:newspaperapp/Core/constants/ui_constants.dart';
+import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 
 class CategoryThumbnail extends StatelessWidget {
   final String imageUrl;

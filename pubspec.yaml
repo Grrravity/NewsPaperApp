@@ -27,13 +27,13 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-
 flutter:
   uses-material-design: true
 
   assets:
     - assets/fonts/
     - assets/images/
+    - assets/logo/
 
   fonts:
     - family: Lato
