@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 import 'package:newspaperapp/Core/Router/routes.dart';
-import 'package:newspaperapp/Core/constants/ui_constants.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   int currentIndex;
@@ -59,7 +59,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           Get.offAllNamed(Routes.home);
           break;
         case 1:
-          Get.offAllNamed(Routes.notFound);
+          Get.offAllNamed(Routes.categories);
           break;
 
         default:
