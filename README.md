@@ -84,7 +84,7 @@ cd NewsPaperApp
 flutter build ios
 ```
 
-3. Now in Xcode, open Runner.xcworkspace in your akt_token app's ios folder
+3. Now in Xcode, open Runner.xcworkspace in your NewsPaperApp app's ios folder
 
 4. Select your device in the list next to the runner and press Run icon
 
