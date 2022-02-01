@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 
 const Duration _snackBarDisplayDuration = Duration(seconds: 4);
@@ -14,9 +14,26 @@ Widget _iconError = Padding(
       borderRadius: BorderRadius.circular(50),
     ),
     child: const Icon(
-      Icons.close,
+      LineAwesomeIcons.bug,
       size: 18,
-      color: UiConstants.backgroundWhite,
+      color: UiConstants.outline,
+    ),
+  ),
+);
+
+Widget _iconWarning = Padding(
+  padding: const EdgeInsets.only(right: 20),
+  child: Container(
+    height: 20,
+    width: 20,
+    decoration: BoxDecoration(
+      color: UiConstants.secondaryYellow,
+      borderRadius: BorderRadius.circular(50),
+    ),
+    child: const Icon(
+      LineAwesomeIcons.exclamation_circle,
+      size: 18,
+      color: UiConstants.outline,
     ),
   ),
 );
@@ -31,9 +48,9 @@ Widget _iconSucces = Padding(
       borderRadius: BorderRadius.circular(50),
     ),
     child: const Icon(
-      Icons.check,
+      LineAwesomeIcons.check_circle,
       size: 18,
-      color: UiConstants.backgroundWhite,
+      color: UiConstants.outline,
     ),
   ),
 );
@@ -47,19 +64,21 @@ class Toast extends SnackBar {
     double? width,
     SnackBarBehavior? behavior,
     double? elevation,
+    Color backgroundColor = UiConstants.primaryBlack,
   }) : super(
-          elevation: elevation,
-          content: content,
-          duration: duration,
-          action: action,
-          width: width,
-          behavior: behavior,
-        );
+            elevation: elevation,
+            content: content,
+            duration: duration,
+            action: action,
+            width: width,
+            behavior: behavior,
+            backgroundColor: backgroundColor);
 
   factory Toast.success({
     required String message,
     Duration duration = _snackBarDisplayDuration,
     SnackBarAction? action,
+    double? elevation,
   }) {
     return Toast._(
       content: Row(
@@ -68,16 +87,16 @@ class Toast extends SnackBar {
           Expanded(
             child: Text(
               message,
-              style: UiConstants.regularText14
-                  .copyWith(color: UiConstants.backgroundWhite),
+              style: UiConstants.regularText14White,
             ),
           ),
         ],
       ),
+      elevation: elevation,
       duration: duration,
       action: action,
-      width: kIsWeb ? 464 : null,
-      behavior: kIsWeb ? SnackBarBehavior.floating : SnackBarBehavior.fixed,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: UiConstants.primaryBlack,
     );
   }
 
@@ -105,8 +124,7 @@ class Toast extends SnackBar {
           Expanded(
             child: Text(
               message,
-              style: UiConstants.regularText14
-                  .copyWith(color: UiConstants.backgroundWhite),
+              style: UiConstants.regularText14White,
             ),
           ),
         ],
@@ -114,8 +132,47 @@ class Toast extends SnackBar {
       elevation: elevation,
       duration: duration,
       action: action,
-      width: kIsWeb ? 464 : null,
-      behavior: kIsWeb ? SnackBarBehavior.floating : SnackBarBehavior.floating,
+      width: null,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: UiConstants.primaryBlack,
+    );
+  }
+
+  /// ```
+  /// Toast.error(
+  ///   message: 'Request data not found',
+  ///   action: SnackBarAction(
+  ///     label: 'Retry ?',
+  ///     onPressed: () {
+  ///       print('retrying');
+  ///     },
+  ///   ),
+  /// ),
+  /// ``
+  factory Toast.warning({
+    required String message,
+    Duration duration = _snackBarDisplayDuration,
+    SnackBarAction? action,
+    double? elevation,
+  }) {
+    return Toast._(
+      content: Row(
+        children: [
+          _iconWarning,
+          Expanded(
+            child: Text(
+              message,
+              style: UiConstants.regularText14White,
+            ),
+          ),
+        ],
+      ),
+      elevation: elevation,
+      duration: duration,
+      action: action,
+      width: null,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: UiConstants.primaryBlack,
     );
   }
 
@@ -134,17 +191,19 @@ class Toast extends SnackBar {
     required String message,
     Duration duration = _snackBarDisplayDuration,
     SnackBarAction? action,
+    double? elevation,
   }) {
     return Toast._(
       content: Text(
         message,
-        style: UiConstants.regularText14
-            .copyWith(color: UiConstants.backgroundWhite),
+        style: UiConstants.regularText14White,
       ),
+      elevation: elevation,
       duration: duration,
       action: action,
-      width: kIsWeb ? 464 : null,
-      behavior: kIsWeb ? SnackBarBehavior.floating : SnackBarBehavior.fixed,
+      width: null,
+      behavior: SnackBarBehavior.fixed,
+      backgroundColor: UiConstants.primaryBlack,
     );
   }
 

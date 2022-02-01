@@ -128,28 +128,37 @@ class HomeView extends GetView<HomeViewController> {
                 height: (size.height) -
                     (size.width * 0.44) -
                     UiConstants.safeAreaOffset,
-                child: ListView.builder(
-                    itemCount: controller.articles.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Get.toNamed(
-                            Routes.article,
-                            parameters: {
-                              "uuid": controller.articles[index].uuid!
-                            },
-                            preventDuplicates: true,
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: ArticleCard.simple(
-                              article: controller.articles[index],
-                              width: size.width,
-                              height: 100),
-                        ),
-                      );
-                    }),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    if (controller.isSearching.value) {
+                      await controller.searchArticles(controller.search.value);
+                    } else {
+                      await controller.resetView();
+                    }
+                  },
+                  child: ListView.builder(
+                      itemCount: controller.articles.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.article,
+                              parameters: {
+                                "uuid": controller.articles[index].uuid!
+                              },
+                              preventDuplicates: true,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ArticleCard.simple(
+                                article: controller.articles[index],
+                                width: size.width,
+                                height: 100),
+                          ),
+                        );
+                      }),
+                ),
               )),
         ],
       ),
