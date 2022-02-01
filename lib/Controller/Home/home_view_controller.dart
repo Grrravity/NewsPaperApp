@@ -44,6 +44,7 @@ class HomeViewController extends GetxController
   RxInt sortValue = 0.obs;
   RxInt languageValue = 4.obs;
   RxBool isSearching = false.obs;
+  RxBool isOffLine = false.obs;
 
   @override
   void onInit() async {
@@ -71,7 +72,27 @@ class HomeViewController extends GetxController
   }
 
   Future<void> getLocalData() async {
-    articles = await Articles().select().toList();
+    try {
+      articles = await Articles().select().toList();
+      if (articles.isNotEmpty) {
+        Toast.showSnackBar(
+            context: Get.context!,
+            snackBar: Toast.warning(
+                message:
+                    "Aucun accès internet, les données affichées sont celles stockés localement",
+                action: SnackBarAction(
+                  label: 'REINITIALISER',
+                  textColor: UiConstants.secondaryGreen,
+                  onPressed: () {
+                    resetView();
+                  },
+                )));
+      } else {
+        change(null, status: RxStatus.empty());
+      }
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
   }
 
   /// Fetch data and remplace all local data with the result
@@ -100,8 +121,8 @@ class HomeViewController extends GetxController
           } else if (result.any((element) => element.success)) {
             Toast.showSnackBar(
                 context: Get.context!,
-                snackBar: Toast.simple(
-                    message: "Les données n'ont pas été sauvegardées"));
+                snackBar: Toast.warning(
+                    message: "Certaines données n'ont pas été sauvegardées"));
             return;
           } else {
             Toast.showSnackBar(
@@ -149,57 +170,64 @@ class HomeViewController extends GetxController
   /// Request result from everything query then update UI
   Future<void> searchArticles(String value) async {
     change(null, status: RxStatus.loading());
-    isSearching.value = true;
-    articles.clear();
-    Map<String, dynamic> queryParam = {};
-    if (value != '') {
-      queryParam.addAll({"q": value});
-    }
-    if (sortValue.value != 0) {
-      queryParam.addAll({"sortBy": sortMap.values.elementAt(sortValue.value)});
-    }
-    if (languageValue.value != 0) {
-      queryParam.addAll(
-          {"language": languageMap.values.elementAt(languageValue.value)});
-    }
-    await everythingRepository
-        .getArticles(
-          queryParameters: queryParam,
-        )
-        .then((option) => option.fold((l) async {
-              articles = [];
-              resetArticles();
-              return;
-            }, (r) async {
-              articles.addAll(r);
-              await Articles().select(getIsDeleted: true).delete(true);
-              for (var element in articles) {
-                element.uuid = const Uuid().v4();
-                element.plSources?.uuid = const Uuid().v4();
-              }
-              final result = await Articles.saveAll(articles);
-              if (result.every((element) => element.success)) {
-                Toast.showSnackBar(
-                    context: Get.context!,
-                    snackBar: Toast.success(message: "Données sauvegardées"));
+    if (await hasInternet()) {
+      isSearching.value = true;
+      articles.clear();
+      Map<String, dynamic> queryParam = {};
+      if (value != '') {
+        queryParam.addAll({"q": value});
+      }
+      if (sortValue.value != 0) {
+        queryParam
+            .addAll({"sortBy": sortMap.values.elementAt(sortValue.value)});
+      }
+      if (languageValue.value != 0) {
+        queryParam.addAll(
+            {"language": languageMap.values.elementAt(languageValue.value)});
+      }
+      await everythingRepository
+          .getArticles(
+            queryParameters: queryParam,
+          )
+          .then((option) => option.fold((l) async {
+                articles = [];
                 resetArticles();
                 return;
-              } else if (result.any((element) => element.success)) {
-                Toast.showSnackBar(
-                    context: Get.context!,
-                    snackBar: Toast.simple(
-                        message: "Les données n'ont pas été sauvegardées"));
-                resetArticles();
-                return;
-              } else {
-                Toast.showSnackBar(
-                    context: Get.context!,
-                    snackBar: Toast.error(
-                        message: "Les données n'ont pas été sauvegardées"));
-                resetArticles();
-                return;
-              }
-            }));
+              }, (r) async {
+                articles.addAll(r);
+                await Articles().select(getIsDeleted: true).delete(true);
+                for (var element in articles) {
+                  element.uuid = const Uuid().v4();
+                  element.plSources?.uuid = const Uuid().v4();
+                }
+                final result = await Articles.saveAll(articles);
+                if (result.every((element) => element.success)) {
+                  Toast.showSnackBar(
+                      context: Get.context!,
+                      snackBar: Toast.success(message: "Données sauvegardées"));
+                  resetArticles();
+                  return;
+                } else if (result.any((element) => element.success)) {
+                  Toast.showSnackBar(
+                      context: Get.context!,
+                      snackBar: Toast.warning(
+                          message:
+                              "Certaines données n'ont pas été sauvegardées"));
+                  resetArticles();
+                  return;
+                } else {
+                  Toast.showSnackBar(
+                      context: Get.context!,
+                      snackBar: Toast.error(
+                          message: "Les données n'ont pas été sauvegardées"));
+                  resetArticles();
+                  return;
+                }
+              }));
+    } else {
+      await getLocalData();
+      change(null, status: RxStatus.success());
+    }
   }
 
   resetSearchValues() {
@@ -211,9 +239,10 @@ class HomeViewController extends GetxController
   Future<bool> hasInternet() async {
     ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());
-    return connectivityResult != ConnectivityResult.none &&
+    isOffLine.value = connectivityResult != ConnectivityResult.none &&
             connectivityResult != ConnectivityResult.bluetooth
         ? true
         : false;
+    return isOffLine.value;
   }
 }
