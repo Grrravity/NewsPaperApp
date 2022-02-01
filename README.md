@@ -46,6 +46,9 @@ This project use a custom MVC pattern with some addition of my liking.
 | Desktop support   | :x:        |
 | Testing   | :hourglass_flowing_sand:   |
 
+/!\ record speed : x2 /!\
+![App example](https://media.giphy.com/media/rods3PANc71GmZPLhl/giphy.gif)
+
 ## Android Installation *(require at least Flutter SDK)*
 
 * Ensure your Android device has developer mode and usb debugging enabled
