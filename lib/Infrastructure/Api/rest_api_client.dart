@@ -6,6 +6,8 @@ import 'rest_api_interceptor.dart';
 class RestApiClient extends GetHttpClient {
   final GetHttpClient client = GetHttpClient();
 
+  ///Client that does the request, handle the default value (timeout, url...)
+  ///and add the request/response modifier from interceptor to the request
   RestApiClient({
     required RestApiInterceptor restApiInterceptor,
   }) {

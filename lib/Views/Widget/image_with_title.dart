@@ -12,6 +12,16 @@ class ImageWithTitle extends StatelessWidget {
   final double height;
   final BoxFit? boxFit;
 
+  /// Image display with option to diplay title and date on
+  /// ```dart
+  /// ImageWithTitle.rounded(
+  ///   borderRadius: 12,
+  ///   width: height,
+  ///   height: height,
+  ///   imageUrl: "http://image.fr/monimage.png",
+  ///   boxFit: BoxFit.fitHeight,
+  /// ),
+  /// ```
   ImageWithTitle._({
     required this.imageUrl,
     required this.width,

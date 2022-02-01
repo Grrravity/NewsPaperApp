@@ -15,6 +15,7 @@ void main() async {
 }
 
 Future<void> initializeServices() async {
+  ///Initialize API Client to get it in the bindings that requires it
   Get.put(
     RestApiClient(
       restApiInterceptor: Get.put(
@@ -23,6 +24,8 @@ Future<void> initializeServices() async {
     ),
     permanent: true,
   );
+
+  ///Put a default category in user's cookies to use it as default in API requests
   Get.put<Category>(Category.business, permanent: true);
 }
 

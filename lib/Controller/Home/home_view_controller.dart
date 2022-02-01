@@ -38,13 +38,13 @@ class HomeViewController extends GetxController
     'Français': 'fr',
     'Italiano': 'it'
   };
-  //Search form
+  RxBool isSearching = false.obs;
+  RxBool isOffLine = false.obs;
+  //Search form vars
   late TextEditingController searchItemController;
   RxString search = ''.obs;
   RxInt sortValue = 0.obs;
   RxInt languageValue = 4.obs;
-  RxBool isSearching = false.obs;
-  RxBool isOffLine = false.obs;
 
   @override
   void onInit() async {
@@ -65,32 +65,61 @@ class HomeViewController extends GetxController
     searchItemController =
         TextEditingController(text: search.value.toLowerCase());
 
+    //Get the user's default category from cookies
     category = Get.find<Category>();
 
     await resetView();
     super.onInit();
   }
 
+  ///Reset view and try getting data
+  resetView() async {
+    change(null, status: RxStatus.loading());
+    isSearching.value = false;
+    //Get data
+    if (await hasInternet()) {
+      await fetchFromApi();
+    } else {
+      await getLocalData();
+    }
+    //populate vars
+    resetArticles();
+  }
+
+  /// Get articles from SQLite DB and show a message to retry api request
   Future<void> getLocalData() async {
+    articles = await Articles().select().toList();
+    Toast.showSnackBar(
+        context: Get.context!,
+        snackBar: Toast.warning(
+            message:
+                "Aucun accès internet, les données affichées sont celles stockés localement",
+            action: SnackBarAction(
+              label: 'REINITIALISER',
+              textColor: UiConstants.secondaryGreen,
+              onPressed: () {
+                resetView();
+              },
+            )));
+  }
+
+  ///Populate [articles] and update UI
+  resetArticles() {
     try {
-      articles = await Articles().select().toList();
       if (articles.isNotEmpty) {
-        Toast.showSnackBar(
-            context: Get.context!,
-            snackBar: Toast.warning(
-                message:
-                    "Aucun accès internet, les données affichées sont celles stockés localement",
-                action: SnackBarAction(
-                  label: 'REINITIALISER',
-                  textColor: UiConstants.secondaryGreen,
-                  onPressed: () {
-                    resetView();
-                  },
-                )));
+        topArticle.value = articles.elementAt(0);
+        articles.removeAt(0);
+        //Stop animation when not used anymore
+        animationController.stop();
+        change(null, status: RxStatus.success());
       } else {
+        //Stop animation when not used anymore
+        animationController.stop();
         change(null, status: RxStatus.empty());
       }
     } catch (e) {
+      //Stop animation when not used anymore
+      animationController.stop();
       change(null, status: RxStatus.error(e.toString()));
     }
   }
@@ -107,12 +136,17 @@ class HomeViewController extends GetxController
           return;
         }, (r) async {
           articles.addAll(r);
+          //Replace all from table Article.
+          //this request equals 'DELETE FROM articles'
           await Articles().select(getIsDeleted: true).delete(true);
+          //Creates uuids for each elements
           for (var element in articles) {
             element.uuid = const Uuid().v4();
             element.plSources?.uuid = const Uuid().v4();
           }
+          //Save it locally
           final result = await Articles.saveAll(articles);
+          //Handle DB errors
           if (result.every((element) => element.success)) {
             Toast.showSnackBar(
                 context: Get.context!,
@@ -132,39 +166,6 @@ class HomeViewController extends GetxController
             return;
           }
         }));
-  }
-
-  resetView() async {
-    change(null, status: RxStatus.loading());
-    isSearching.value = false;
-    //Get data
-    if (await hasInternet()) {
-      await fetchFromApi();
-    } else {
-      await getLocalData();
-    }
-    //populate vars
-    resetArticles();
-  }
-
-  resetArticles() {
-    try {
-      if (articles.isNotEmpty) {
-        topArticle.value = articles.elementAt(0);
-        articles.removeAt(0);
-        //Stop animation when not used anymore
-        animationController.stop();
-        change(null, status: RxStatus.success());
-      } else {
-        //Stop animation when not used anymore
-        animationController.stop();
-        change(null, status: RxStatus.empty());
-      }
-    } catch (e) {
-      //Stop animation when not used anymore
-      animationController.stop();
-      change(null, status: RxStatus.error(e.toString()));
-    }
   }
 
   /// Request result from everything query then update UI
@@ -195,12 +196,17 @@ class HomeViewController extends GetxController
                 return;
               }, (r) async {
                 articles.addAll(r);
+                //Replace all from table Article.
+                //this request equals 'DELETE FROM articles'
                 await Articles().select(getIsDeleted: true).delete(true);
+                //Creates uuids for each elements
                 for (var element in articles) {
                   element.uuid = const Uuid().v4();
                   element.plSources?.uuid = const Uuid().v4();
                 }
+                //Save it locally
                 final result = await Articles.saveAll(articles);
+                //Handle DB errors
                 if (result.every((element) => element.success)) {
                   Toast.showSnackBar(
                       context: Get.context!,
@@ -226,16 +232,18 @@ class HomeViewController extends GetxController
               }));
     } else {
       await getLocalData();
-      change(null, status: RxStatus.success());
+      await resetArticles();
     }
   }
 
+  ///Reset search, sort and language value to default
   resetSearchValues() {
     search.value = '';
     sortValue.value = 0;
-    languageValue.value = 3;
+    languageValue.value = 4;
   }
 
+  ///Check connectivity then update and return [isOffLine]'s value
   Future<bool> hasInternet() async {
     ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());

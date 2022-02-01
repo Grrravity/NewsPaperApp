@@ -12,6 +12,14 @@ class ArticleCard extends StatelessWidget {
   final double width;
   final double height;
 
+  /// Article card with image and basic information
+  /// ```dart
+  /// ArticleCard.simple(
+  ///   article: Articles(),
+  ///   width: size.width,
+  ///   height: 100),
+  /// ),
+  /// ```
   ArticleCard._({
     required this.article,
     required this.width,

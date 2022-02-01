@@ -27,7 +27,6 @@ class DetailViewController extends GetxController
     animationController.forward();
 
     change(null, status: RxStatus.loading());
-    await Future.delayed(const Duration(seconds: 3));
     try {
       String uuid = Get.parameters["uuid"] ?? '';
       Articles? targetArticle =

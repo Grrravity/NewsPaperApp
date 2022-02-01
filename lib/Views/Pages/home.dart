@@ -55,6 +55,7 @@ class HomeView extends GetView<HomeViewController> {
         body: controller.obx(
           (state) => _buildContent(context),
           onLoading: _buildLoader(context),
+          // Display a button to retry view creation
           onEmpty: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -74,6 +75,7 @@ class HomeView extends GetView<HomeViewController> {
               ],
             ),
           ),
+          // Display a button to retry view creation
           onError: (error) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -165,6 +167,7 @@ class HomeView extends GetView<HomeViewController> {
     );
   }
 
+  //Display a pop-up with multiple search option
   Dialog searchArticles() {
     final formGlobalKey = GlobalKey<FormState>();
     return Dialog(

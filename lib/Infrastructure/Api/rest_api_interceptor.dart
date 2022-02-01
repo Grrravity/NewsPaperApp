@@ -15,6 +15,7 @@ class RestApiInterceptor extends RestApiLogger {
     return request;
   }
 
+  ///Handle log in console on request
   Response responseModifier(Request request, Response response) {
     onResponseLogger(response);
     return response;

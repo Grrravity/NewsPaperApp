@@ -8,6 +8,14 @@ class CategoryThumbnail extends StatelessWidget {
   final double? borderRadius;
   final BoxFit? boxFit;
 
+  /// Custom Thumbnail for category with asset images
+  /// ```dart
+  /// CategoryThumbnail(
+  ///   boxFit: BoxFit.fitHeight,
+  ///   title: 'my title',
+  ///   imageUrl: "http://image.com/monimage.png",
+  /// )
+  /// ```
   CategoryThumbnail({
     required this.imageUrl,
     required this.title,
