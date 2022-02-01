@@ -10,6 +10,7 @@ import 'package:newspaperapp/Views/Pages/home.dart';
 import 'package:newspaperapp/Views/Pages/not_found.dart';
 
 class Navigate {
+  //List of available routes and their respective page & bindings
   static List<GetPage> routes = [
     GetPage(
       name: Routes.home,
@@ -26,6 +27,7 @@ class Navigate {
         page: () => CategoriesView(),
         binding: CategoriesControllerBindings()),
   ];
+
   static GetPage notFound = GetPage(
       name: Routes.notFound,
       page: () => NotFoundView(),

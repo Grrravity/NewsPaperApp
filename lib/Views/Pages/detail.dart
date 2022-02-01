@@ -45,6 +45,7 @@ class DetailView extends GetView<DetailViewController> {
         body: controller.obx(
           (state) => _buildContent(context),
           onLoading: _buildLoader(context),
+          //Display a button to get back to previous view
           onEmpty: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,6 +65,7 @@ class DetailView extends GetView<DetailViewController> {
               ],
             ),
           ),
+          //Display a button to get back to previous view
           onError: (error) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

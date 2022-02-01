@@ -7,7 +7,7 @@ class DatabaseValueFailure<T> extends ValueFailure<T> {
     required T message,
   }) : super(message: message);
 
-  /// Erreur survenu à la transformation DTO <--> Entity
+  /// Erreur survenu à la transformation Json <-> SQLite Table
   factory DatabaseValueFailure.responseToTable({
     required T message,
   }) {

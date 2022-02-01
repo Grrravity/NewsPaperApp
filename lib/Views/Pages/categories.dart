@@ -32,6 +32,7 @@ class CategoriesView extends GetView<CategoriesViewController> {
         body: controller.obx(
           (state) => _buildContent(),
           onLoading: _buildLoader(),
+          // Display a button to retry view creation
           onEmpty: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -51,6 +52,7 @@ class CategoriesView extends GetView<CategoriesViewController> {
               ],
             ),
           ),
+          // Display a button to retry view creation
           onError: (error) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -101,6 +103,7 @@ class CategoriesView extends GetView<CategoriesViewController> {
     );
   }
 
+  //Mock the ui with a fadein/out animation while loading
   Widget _buildLoader() {
     return FadeTransition(
       opacity: controller.animation,

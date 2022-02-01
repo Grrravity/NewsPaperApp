@@ -29,7 +29,10 @@ class CategoriesViewController extends GetxController
     animationController.forward();
 
     change(null, status: RxStatus.loading());
+    //NOTE Mock a loading
+    await Future.delayed(const Duration(milliseconds: 250));
     try {
+      //Get category set in cookies
       category.value = getCategoryTranslation(Get.find<Category>());
       if (category.value != '') {
         animationController.stop();
@@ -47,11 +50,14 @@ class CategoriesViewController extends GetxController
     super.onInit();
   }
 
+  ///Reinit view
   resetView() async {
     change(null, status: RxStatus.loading());
+    onInit();
     change(null, status: RxStatus.success());
   }
 
+  ///Update category value and replace it in cookies (AKA Get.put)
   changeCategory(Category cat) {
     Get.replace<Category>(cat);
     category.value = getCategoryTranslation(cat);

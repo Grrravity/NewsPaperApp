@@ -11,7 +11,8 @@
             "toolArgs": [
                 "--dart-define",
                 "API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e42",
-                "--dart-define","BASE_URL=https://newsapi.org/v2"
+                "--dart-define",
+                "BASE_URL=https://newsapi.org/v2"
             ],
         },
         {
