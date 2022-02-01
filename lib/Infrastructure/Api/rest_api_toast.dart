@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:newspaperapp/Core/constants/ui_constants.dart';
+import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 
 const Duration _snackBarDisplayDuration = Duration(seconds: 4);
 
@@ -39,6 +39,7 @@ Widget _iconSucces = Padding(
 );
 
 class Toast extends SnackBar {
+  ///Make a customizable contextless toast with factory.
   Toast._({
     required Widget content,
     required Duration duration,

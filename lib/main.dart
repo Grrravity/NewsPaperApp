@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:newspaperapp/Infrastructure/Api/rest_api_client.dart';
 import 'package:newspaperapp/Infrastructure/Api/rest_api_interceptor.dart';
 
+import 'Core/Constants/ui_constants.dart';
 import 'Core/Router/navigate.dart';
 import 'Core/Router/routes.dart';
 
@@ -22,6 +23,7 @@ Future<void> initializeServices() async {
     ),
     permanent: true,
   );
+  Get.put<Category>(Category.business, permanent: true);
 }
 
 class MyApp extends StatelessWidget {

@@ -9,6 +9,7 @@ class RestApiLogger {
   Duration _computeTime = const Duration();
   Stopwatch stopwatch = Stopwatch()..start();
 
+  ///Provide debug information on request in console
   Request onRequestLogger(Request request) {
     debugPrint('REQUEST[${request.method}] => PATH: ${request.url}');
     debugPrint('REQUEST[${request.method}] => PATH: ${request.headers}');
@@ -33,6 +34,7 @@ class RestApiLogger {
     return request;
   }
 
+  ///Provide debug information on response in console
   Response onResponseLogger(Response response) {
     debugPrint(
       'RESPONSE[${response.statusCode}] => PATH: ${response.request?.url}',
@@ -50,6 +52,7 @@ class RestApiLogger {
     return response;
   }
 
+  ///Provide debug information on errors
   Response onErrorLogger(Response response) {
     debugPrint(
       'ERROR[${response.statusCode}] => PATH: ${response.request?.url}',

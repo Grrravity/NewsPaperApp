@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:newspaperapp/Core/constants/ui_constants.dart';
+import 'package:newspaperapp/Core/Constants/ui_constants.dart';
 import 'package:newspaperapp/Model/Database/database_model.dart';
 
 import 'image_with_title.dart';

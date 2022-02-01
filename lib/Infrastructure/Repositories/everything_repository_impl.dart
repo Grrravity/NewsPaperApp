@@ -11,7 +11,7 @@ class EverythingRepositoryImpl extends RestApiRepository {
     required GetHttpClient client,
   }) : super(client: client, controller: '/everything');
 
-  ///Get articles from everything. return only first 50 french results.
+  ///Get articles from everything. return only first 50 results.
   Future<Either<InfrastructureValueFailure<String>, List<Articles>>>
       getArticles({
     bool showError = true,
@@ -19,7 +19,6 @@ class EverythingRepositoryImpl extends RestApiRepository {
   }) async {
     try {
       Map<String, dynamic> defaultQuery = {
-        'language': 'fr',
         'pageSize': '50',
       };
       if (queryParameters != null) {
