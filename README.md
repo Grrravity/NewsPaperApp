@@ -93,7 +93,7 @@ flutter build ios --debug --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e4
 ## APK Installation
 * Check that your phone accept unknown source apk
 
-1. Download the apk from **[Release](https://github.com/Grrravity/NewsPaperApp/releases/tag/v.0.1.0)** (named app-debug.apk)
+1. Download the apk from **[Release](https://github.com/Grrravity/NewsPaperApp/releases/tag/v.0.1.0)** (named newspaperapp.apk)
 
 2. Paste the apk in your Android's storage
 
@@ -108,7 +108,7 @@ flutter build ios --debug --dart-define="API_KEY=5d2435dcfb6845fab9f0f4bf8c9a6e4
 
 2. Run the following commands:
 ```bash
-curl --output newspaperapp.apk https://github.com/Grrravity/NewsPaperApp/releases/download/v.0.1.0/app-debug.apk
+curl --output newspaperapp.apk https://github.com/Grrravity/NewsPaperApp/releases/download/v.0.1.0/newspaperapp.apk
 adb install newspaperapp.apk
 rm newspaperapp.apk
 ```
