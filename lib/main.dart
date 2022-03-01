@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'NewsPaperApp',
+      title: 'Awersome NewsPaper',
       unknownRoute: Navigate.notFound,
       initialRoute: Routes.initialRoute,
       getPages: Navigate.routes,
