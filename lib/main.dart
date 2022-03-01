@@ -14,6 +14,22 @@ void main() async {
   runApp(const MyApp());
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      defaultTransition: Transition.fadeIn,
+      getPages: Navigate.routes,
+      title: 'App NewsPaper',
+      unknownRoute: Navigate.notFound,
+      initialRoute: Routes.initialRoute,
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
 Future<void> initializeServices() async {
   ///Initialize API Client to get it in the bindings that requires it
   Get.put(
@@ -27,20 +43,4 @@ Future<void> initializeServices() async {
 
   ///Put a default category in user's cookies to use it as default in API requests
   Get.put<Category>(Category.business, permanent: true);
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'App NewsPaper',
-      unknownRoute: Navigate.notFound,
-      initialRoute: Routes.initialRoute,
-      getPages: Navigate.routes,
-      defaultTransition: Transition.fadeIn,
-    );
-  }
 }
